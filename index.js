@@ -1,19 +1,24 @@
 import express from "express";  //thêm type module vào package.json để sử dụng import
 import mongoose from "mongoose";
+import dotenv from "dotenv";  //thêm dotenv để sử dụng biến môi trường từ file .env
 
 const app = express();
+
+dotenv.config(); //load biến môi trường từ file .env vào process.env
 
 app.use(express.json()); //middleware để parse JSON body từ request
 
 
 //connect to database
-mongoose.connect("mongodb+srv://lyricmusic263_db_user:huytran2101@cluster0.ii14glf.mongodb.net/?appName=Cluster0").
+mongoose.connect(process.env.MONGODB_URL).
     then(() => {
         console.log("Connected to database");
     }).catch((error) => {
         console.error("Error connecting to database", error);
     });
 
+
+//các route của API    
 app.get('/', (req, res) => { //req làm đại diện cho request từ client, res làm đại diện cho response từ server, dùng để gửi dữ liệu về cho client
     res.send('Hello, World!');
 });
