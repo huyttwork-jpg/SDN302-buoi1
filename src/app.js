@@ -1,89 +1,17 @@
 import express from "express";  //thêm type module vào package.json để sử dụng import
+import userRoutes from "./routes/user.route.js"; //import router từ file user.route.js trong thư mục routes
 
 const app = express();
 
 app.use(express.json()); //middleware để parse JSON body từ request
 
-//các route của API    
-app.get('/', (req, res) => { //req làm đại diện cho request từ client, res làm đại diện cho response từ server, dùng để gửi dữ liệu về cho client
-    res.send('Hello, World!');
-});
 
-app.post('/', (req, res) => {
-    const { name, email, password } = req.body;
-    console.log(name, email, password);
-    res.status(201).send(
-        {
-            status: "success",
-            message: "data được lưu vào database",
-            // data: {
-            //     name,
-            //     email,
-            //     password
-            // }
-        }
-    )
+//các route của API
+app.use("/api/v1/users", userRoutes);
+// app.use("/api/v2/post", postRoutes);
+// app.use("/api/v3/comment", commentRoutes);
+// app.use("/api/v4/like", likeRoutes);
 
-});
-
-app.put("/:id", (req, res) => {
-    const { id } = req.params;
-    console.log("ID của người dùng", id);
-    //check trong database có tồn tại id này không nếu có thì cập nhật thông tin người dùng với id này, nếu không có thì trả về lỗi
-    if (!id) {
-        return res.status(400).send(
-            {
-                status: "error",
-                message: "ID người dùng không hợp lệ"
-            }
-        )
-    } else if (isNaN(id)) {
-        return res.status(400).send(
-            {
-                status: "error",
-                message: "ID người dùng không hợp lệ"
-            }
-        )
-    };
-
-    const { password } = req.body;
-    console.log("Mật khẩu mới", password);
-    res.status(200).send(
-        {
-            status: "success",
-            message: "Tài khoản đã được cập nhật thành công"
-        }
-    )
-});
-
-app.delete("/:id", (req, res) => {
-    const { id } = req.params;
-    console.log("ID của người dùng ", id);
-    //check trong database có tồn tại id này không nếu có thì cập nhật thông tin người dùng với id này, nếu không có thì trả về lỗi
-    if (!id) {
-        return res.status(400).send(
-            {
-                status: "error",
-                message: "ID người dùng không hợp lệ"
-            }
-        )
-    } else if (isNaN(id)) {
-        return res.status(400).send(
-            {
-                status: "error",
-                message: "ID người dùng không hợp lệ"
-            }
-        )
-    };
-
-
-    res.status(200).send(
-        {
-            status: "success",
-            message: "Tài khoản đã xoá thành công"
-        }
-    )
-});
 
 export default app;
 
