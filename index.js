@@ -68,7 +68,7 @@ app.put("/:id", (req, res) => {
 
 app.delete("/:id", (req, res) => {
     const { id } = req.params;
-    console.log("ID của người dùng", id);
+    console.log("ID của người dùng ", id);
     //check trong database có tồn tại id này không nếu có thì cập nhật thông tin người dùng với id này, nếu không có thì trả về lỗi
     if (!id) {
         return res.status(400).send(
